@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyca8aj2ur8bc"]
+
+[ext_resource type="PackedScene" uid="uid://dpto5v3svi8wp" path="res://tiles/field.tscn" id="1_482ua"]
+[ext_resource type="Script" path="res://camera_2d.gd" id="2_l3pvn"]
+
+[node name="Root" type="Node2D"]
+
+[node name="field" parent="." instance=ExtResource("1_482ua")]
+position = Vector2(-227, 69)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(3, 837)
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("2_l3pvn")
