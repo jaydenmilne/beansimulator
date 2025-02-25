@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhg0v06b3w6vj"]
+
+[ext_resource type="Texture2D" uid="uid://byjab5qj4jey5" path="res://ui/texture/buttonSquare_brown.png" id="1_educ4"]
+[ext_resource type="Texture2D" uid="uid://vu7x62na6yu1" path="res://ui/texture/buttonSquare_blue_pressed.png" id="2_srlt3"]
+
+[node name="Bluebtn" type="TextureButton"]
+texture_normal = ExtResource("1_educ4")
+texture_pressed = ExtResource("2_srlt3")
