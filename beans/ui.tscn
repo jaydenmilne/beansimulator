@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cjwreoa55edjc"]
+[gd_scene load_steps=22 format=3 uid="uid://cjwreoa55edjc"]
 
 [ext_resource type="PackedScene" uid="uid://bhg0v06b3w6vj" path="res://ui/bluebtn.tscn" id="1_fplw4"]
 [ext_resource type="Script" path="res://ui.gd" id="1_gks5u"]
@@ -9,14 +9,15 @@
 [ext_resource type="ButtonGroup" uid="uid://nxniu2ccg34k" path="res://ui/button_group.tres" id="5_ytvxn"]
 [ext_resource type="Texture2D" uid="uid://d4cvpktagfan6" path="res://ui/texture/scissors-svgrepo-com.svg" id="6_dlohc"]
 [ext_resource type="Texture2D" uid="uid://dpey2dtlgmymw" path="res://ui/texture/dollar-1189-svgrepo-com.svg" id="7_1uj8v"]
+[ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="10_laycq"]
 
-[sub_resource type="InputEventKey" id="InputEventKey_8suqd"]
+[sub_resource type="InputEventKey" id="InputEventKey_vjrp4"]
 device = -1
 keycode = 72
 unicode = 104
 
-[sub_resource type="Shortcut" id="Shortcut_c7ae5"]
-events = [SubResource("InputEventKey_8suqd")]
+[sub_resource type="Shortcut" id="Shortcut_awykn"]
+events = [SubResource("InputEventKey_vjrp4")]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ki2in"]
 texture = ExtResource("3_csto8")
@@ -25,29 +26,37 @@ texture_margin_top = 7.0
 texture_margin_right = 7.0
 texture_margin_bottom = 7.0
 
-[sub_resource type="InputEventKey" id="InputEventKey_pb4r7"]
+[sub_resource type="InputEventKey" id="InputEventKey_6myng"]
 device = -1
 keycode = 90
 unicode = 122
 
-[sub_resource type="Shortcut" id="Shortcut_4coes"]
-events = [SubResource("InputEventKey_pb4r7")]
+[sub_resource type="Shortcut" id="Shortcut_qn45d"]
+events = [SubResource("InputEventKey_6myng")]
 
-[sub_resource type="InputEventKey" id="InputEventKey_6anyi"]
+[sub_resource type="InputEventKey" id="InputEventKey_ap35l"]
 device = -1
 keycode = 88
 unicode = 120
 
-[sub_resource type="Shortcut" id="Shortcut_s6j4b"]
-events = [SubResource("InputEventKey_6anyi")]
+[sub_resource type="Shortcut" id="Shortcut_ccsgw"]
+events = [SubResource("InputEventKey_ap35l")]
 
-[sub_resource type="InputEventKey" id="InputEventKey_7h42s"]
+[sub_resource type="InputEventKey" id="InputEventKey_vcta3"]
 device = -1
 keycode = 67
 unicode = 99
 
-[sub_resource type="Shortcut" id="Shortcut_esue0"]
-events = [SubResource("InputEventKey_7h42s")]
+[sub_resource type="Shortcut" id="Shortcut_p5j0u"]
+events = [SubResource("InputEventKey_vcta3")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_7wv54"]
+device = -1
+keycode = 86
+unicode = 118
+
+[sub_resource type="Shortcut" id="Shortcut_mae0m"]
+events = [SubResource("InputEventKey_7wv54")]
 
 [node name="UI" type="MarginContainer"]
 anchors_preset = 15
@@ -60,17 +69,20 @@ size_flags_vertical = 3
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 22
+theme_override_constants/margin_bottom = 8
 script = ExtResource("1_gks5u")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 2
 
 [node name="homebtn" parent="." instance=ExtResource("1_fplw4")]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-shortcut = SubResource("Shortcut_c7ae5")
+
+[node name="Bluebtn" parent="homebtn" index="0"]
+tooltip_text = "go back to center of map"
+shortcut = SubResource("Shortcut_awykn")
+
+[node name="Label" parent="homebtn" index="1"]
+visible = false
 
 [node name="Barn-svgrepo-com" type="Sprite2D" parent="homebtn"]
 position = Vector2(23, 22)
@@ -88,7 +100,7 @@ layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_bottom = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
@@ -98,10 +110,18 @@ theme_override_constants/separation = 10
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+tooltip_text = "enable dragging mode"
+
+[node name="Bluebtn" parent="PanelContainer/MarginContainer/HBoxContainer/dragbtn" index="0"]
+tooltip_text = "enable growing mode"
 toggle_mode = true
 button_pressed = true
 button_group = ExtResource("5_ytvxn")
-shortcut = SubResource("Shortcut_4coes")
+shortcut = SubResource("Shortcut_qn45d")
+
+[node name="Label" parent="PanelContainer/MarginContainer/HBoxContainer/dragbtn" index="1"]
+tooltip_text = "enable growing mode (z)"
+text = "grow"
 
 [node name="Barn-svgrepo-com" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/dragbtn"]
 position = Vector2(23, 22)
@@ -112,9 +132,15 @@ texture = ExtResource("4_3xfr6")
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="Bluebtn" parent="PanelContainer/MarginContainer/HBoxContainer/plantbtn" index="0"]
+tooltip_text = "switch to planting mode"
 toggle_mode = true
 button_group = ExtResource("5_ytvxn")
-shortcut = SubResource("Shortcut_s6j4b")
+shortcut = SubResource("Shortcut_ccsgw")
+
+[node name="Label" parent="PanelContainer/MarginContainer/HBoxContainer/plantbtn" index="1"]
+text = "plant"
 
 [node name="bean" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/plantbtn"]
 position = Vector2(22, 23)
@@ -126,9 +152,15 @@ texture = ExtResource("5_xs6m0")
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="Bluebtn" parent="PanelContainer/MarginContainer/HBoxContainer/cutbtn" index="0"]
+tooltip_text = "switch to cutting / harvest mode"
 toggle_mode = true
 button_group = ExtResource("5_ytvxn")
-shortcut = SubResource("Shortcut_esue0")
+shortcut = SubResource("Shortcut_p5j0u")
+
+[node name="Label" parent="PanelContainer/MarginContainer/HBoxContainer/cutbtn" index="1"]
+text = "cut"
 
 [node name="Barn-svgrepo-com" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/cutbtn"]
 position = Vector2(23, 23)
@@ -141,12 +173,76 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
+[node name="Bluebtn" parent="PanelContainer/MarginContainer/HBoxContainer/sellbtn" index="0"]
+tooltip_text = "sell ur beanz "
+shortcut = SubResource("Shortcut_mae0m")
+
+[node name="Label" parent="PanelContainer/MarginContainer/HBoxContainer/sellbtn" index="1"]
+text = "sell"
+
 [node name="Barn-svgrepo-com" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/sellbtn"]
 position = Vector2(23, 22)
 scale = Vector2(0.03625, 0.03625)
 texture = ExtResource("7_1uj8v")
 
-[connection signal="pressed" from="homebtn" to="." method="_on_homebtn_pressed"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/dragbtn" to="." method="_on_dragbtn_toggled"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/plantbtn" to="." method="_on_plantbtn_toggled"]
-[connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/cutbtn" to="." method="_on_cutbtn_toggled"]
+[node name="Inventory" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_ki2in")
+
+[node name="MarginContainer" type="MarginContainer" parent="Inventory"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Inventory/MarginContainer"]
+layout_mode = 2
+
+[node name="BeanCount" type="Label" parent="Inventory/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("10_laycq")
+text = "Beans: 999"
+horizontal_alignment = 2
+
+[node name="Money" type="Label" parent="Inventory/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("10_laycq")
+text = "$0.00001"
+horizontal_alignment = 2
+
+[node name="cameracoords" type="Label" parent="."]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "these are my camera coordinates :D"
+horizontal_alignment = 1
+max_lines_visible = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="CommandBar" type="LineEdit" parent="."]
+visible = false
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_vertical = 0
+caret_blink = true
+caret_blink_interval = 0.2
+
+[connection signal="pressed" from="homebtn/Bluebtn" to="." method="_on_homebtn_pressed"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/dragbtn/Bluebtn" to="." method="_on_dragbtn_toggled"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/plantbtn/Bluebtn" to="." method="_on_plantbtn_toggled"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/cutbtn/Bluebtn" to="." method="_on_cutbtn_toggled"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="gui_input" from="CommandBar" to="." method="_on_command_bar_gui_input"]
+
+[editable path="homebtn"]
+[editable path="PanelContainer/MarginContainer/HBoxContainer/dragbtn"]
+[editable path="PanelContainer/MarginContainer/HBoxContainer/plantbtn"]
+[editable path="PanelContainer/MarginContainer/HBoxContainer/cutbtn"]
+[editable path="PanelContainer/MarginContainer/HBoxContainer/sellbtn"]

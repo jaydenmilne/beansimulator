@@ -16,12 +16,53 @@ var field_id: Vector2i = Vector2i(0, 0)
 var direction: int = 0
 
 var FIELD_CELLS = [Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1), Vector2i(6, 1)]
-var BEAN_CELLS = [Vector2i(12, 0), Vector2i(13, 0), Vector2i(14, 0), Vector2i(15, 0)]
+var BABY_BEAN_CELLS = [Vector2i(12, 0), Vector2i(13, 0), Vector2i(14, 0), Vector2i(15, 0)]
+var BIG_BEAN_CELLS = [Vector2i(8, 0), Vector2i(9, 0), Vector2i(10, 0), Vector2i(11, 0)]
+
 const BLANK_CELL = Vector2i(-1, -1)
+
+"""
+Field File Format
+
+{
+	"version": "1",
+	"beans": {
+		"3": {
+			"3": {
+				"t": 12314151511,
+			}
+		}
+	}
+
+}
+
+"""
+
+var field_data = {}
+var maturationrng = RandomNumberGenerator.new()
+
+func get_field_filename(id: Vector2i) -> String:
+	return "user://fields/%s_%s.beans" % [str(id[0]).replace('-', 'm'), str(id[1]).replace('-', 'm')]
+func load_beans(id: Vector2i):
+	var filename = self.get_field_filename(id)
+	var dir = DirAccess.open("user://")
+	dir.make_dir('fields')
+
+	if not FileAccess.file_exists(filename):
+		field_data["version"] = "1"
+		field_data["beans"] = {}
+		return
+
+	var f = FileAccess.open_compressed(filename, FileAccess.READ, FileAccess.CompressionMode.COMPRESSION_ZSTD)
+	field_data = await JSON.parse_string(f.get_as_text())
+
+	self.refresh_field()
+		
 
 func init_field(id: Vector2i):
 	var rng = RandomNumberGenerator.new()
 	rng.set_seed(hash(id))
+	maturationrng.set_seed(hash(id) + Time.get_unix_time_from_system())
 	self.field_id = id
 	$debugstr.text = str(field_id)
 	# decide row direction
@@ -50,6 +91,10 @@ func init_field(id: Vector2i):
 		$ground.set_cell(Vector2i(0, y), 0, Vector2i(7 + rng.randi_range(0, 3), 1))
 		$ground.set_cell(Vector2i(field_width - 1, y), 0, Vector2i(7 + rng.randi_range(0, 3), 1))
 
+	# clear the corn 
+	$beans.clear()
+
+	load_beans(id)
 var last_position
 
 func get_event_tilemap_coords(event: InputEventMouse) -> Vector2i:
@@ -60,6 +105,57 @@ func position_in_this_field(p: Vector2i) -> bool:
 	var ground_cell = $ground.get_cell_atlas_coords(p)
 	return ground_cell in FIELD_CELLS
 
+const SECS_PER_DAY = 60 * 60 * 24
+
+const MIN_BEAN_MATURATION_TIME = 50 * SECS_PER_DAY
+const BEAN_MATURATION_TIME_VARIANCE = 5 * SECS_PER_DAY
+
+func get_bean_ready_date():
+	# https://www.georgina.ca/sites/default/files/page_assets/planting_growing_harvesting_green_beans.pdf
+	var t = Time.get_unix_time_from_system()
+	t += self.MIN_BEAN_MATURATION_TIME
+	t += self.maturationrng.randi_range(0, self.BEAN_MATURATION_TIME_VARIANCE)
+	return t
+
+func plant_cell(c: Vector2i):
+	$beans.set_cell(c, 0, BABY_BEAN_CELLS[self.direction])
+	var beans = self.field_data['beans']
+	var x = str(c[0])
+	var y = str(c[1])
+
+	if x not in beans:
+		beans[x] = {}
+	
+	beans[x][y] = {"t": self.get_bean_ready_date()}
+	$writefield.stop()
+	$writefield.start()
+
+func harvest_cell(c: Vector2i):
+	var beans = self.field_data['beans']
+	var x = str(c[0])
+	var y = str(c[1])
+
+	beans[x].erase(y)
+	$beans.set_cell(c, 0, BLANK_CELL)
+	Globals.update_beans(self.maturationrng.randi_range(100, 120))
+	$writefield.stop()
+	$writefield.start()
+
+func _on_writefield_timeout() -> void:
+	print("saving field ", str(self.field_id))
+	var filename = self.get_field_filename(self.field_id)
+	if FileAccess.file_exists(filename):
+		DirAccess.remove_absolute(filename)
+
+	var f = FileAccess.open_compressed(filename, FileAccess.WRITE_READ, FileAccess.CompressionMode.COMPRESSION_ZSTD)
+	
+	if f == null:
+		print("failed to write file! ", FileAccess.get_open_error())
+		return
+	
+	f.store_string(JSON.stringify(self.field_data))
+
+
 func field_click(p: Vector2i):
 	if not self.position_in_this_field(p):
 		return
@@ -67,10 +163,13 @@ func field_click(p: Vector2i):
 	var bean_cell = $beans.get_cell_atlas_coords(p)
 
 	if Globals.mouse_mode == Globals.MOUSE_MODE.PLANT and bean_cell == BLANK_CELL:
-		$beans.set_cell(p, 0, BEAN_CELLS[self.direction])
-	
-	if Globals.mouse_mode == Globals.MOUSE_MODE.CUT and bean_cell != BLANK_CELL:
-		$beans.set_cell(p, 0, BLANK_CELL)
+		if Globals.beans < 1:
+			return
+		self.plant_cell(p)
+		Globals.update_beans(-1)
+	if Globals.mouse_mode == Globals.MOUSE_MODE.CUT and bean_cell != BLANK_CELL and bean_cell in BIG_BEAN_CELLS:
+		self.harvest_cell(p)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and last_position != null:
@@ -121,12 +220,37 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	if event is InputEventMouseButton and not event.pressed:
 		last_position = null
-	
+
+func refresh_field():
+	for x in field_data["beans"].keys():
+		for y in field_data["beans"][x].keys():
+			if field_data["beans"][x][y]["t"] < Time.get_unix_time_from_system():
+				$beans.set_cell(Vector2i(int(x), int(y)), 0, BIG_BEAN_CELLS[self.direction])
+			else:
+				$beans.set_cell(Vector2i(int(x), int(y)), 0, BABY_BEAN_CELLS[self.direction])
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Globals.toggle_debug.connect(
+		func(state: bool):
+			$debugstr.visible = state
+	)
+
+	Globals.force_grow.connect(
+		func():
+			# force everything to be grown
+			for x in field_data["beans"].keys():
+					for y in field_data["beans"][x].keys():
+						field_data["beans"][x][y]["t"] = 0
+			self.refresh_field()
+	)
 	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_refresh_timeout() -> void:
+	self.refresh_field()

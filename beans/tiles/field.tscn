@@ -5,8 +5,6 @@
 
 [node name="field" type="Node2D"]
 script = ExtResource("1_n5fla")
-field_width = null
-field_height = null
 
 [node name="ground" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_3xqx0")
@@ -18,9 +16,21 @@ tile_set = ExtResource("1_3xqx0")
 tile_set = ExtResource("1_3xqx0")
 
 [node name="debugstr" type="Label" parent="."]
+visible = false
 offset_left = 93.0
 offset_top = 279.0
 offset_right = 689.0
 offset_bottom = 509.0
 theme_override_font_sizes/font_size = 58
 text = "location: "
+
+[node name="writefield" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="refresh" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[connection signal="timeout" from="writefield" to="." method="_on_writefield_timeout"]
+[connection signal="timeout" from="refresh" to="." method="_on_refresh_timeout"]
