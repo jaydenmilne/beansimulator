@@ -38,5 +38,7 @@ one_shot = true
 wait_time = 60.0
 autostart = true
 
+[node name="sound" type="AudioStreamPlayer" parent="."]
+
 [connection signal="timeout" from="writefield" to="." method="_on_writefield_timeout"]
 [connection signal="timeout" from="refresh" to="." method="_on_refresh_timeout"]

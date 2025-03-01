@@ -8,4 +8,5 @@ func _ready() -> void:
 
 func _on_texture_button_pressed() -> void:
 	self.visible = false
+	$closesnd.play()
 

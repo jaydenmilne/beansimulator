@@ -2,8 +2,8 @@ extends MarginContainer
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	if $VBoxContainer/BeanCount != null:
+func _process(_delta: float) -> void:
+	if $VBoxContainer/BeanCount == null:
 		$VBoxContainer/BeanCount.text = str(0)
 		
 
@@ -21,12 +21,13 @@ const BEANS_PER_POUND = 35
 const PRICE_PER_BEAN = PRICE_PER_BUSHEL / (POUNDS_PER_BUSHEL * BEANS_PER_POUND)
 
 func _on_texture_button_pressed() -> void:
-	print("selling ", self.beans_to_sell, " beans")
 	if self.beans_to_sell == 0:
 		return
 	if Globals.beans - self.beans_to_sell <= 0:
 		self.beans_to_sell = Globals.beans - 1
+	print("selling ", self.beans_to_sell, " beans")
 	Globals.update_beans(-1 * self.beans_to_sell)
 	Globals.update_money(self.beans_to_sell * PRICE_PER_BEAN)
 	$VBoxContainer/HSlider.value = 0
 	self.beans_to_sell = 0
+	$sellsnd.play()

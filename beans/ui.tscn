@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cjwreoa55edjc"]
+[gd_scene load_steps=25 format=3 uid="uid://cjwreoa55edjc"]
 
 [ext_resource type="PackedScene" uid="uid://bhg0v06b3w6vj" path="res://ui/bluebtn.tscn" id="1_fplw4"]
 [ext_resource type="Script" path="res://ui.gd" id="1_gks5u"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dpey2dtlgmymw" path="res://ui/texture/dollar-1189-svgrepo-com.svg" id="7_1uj8v"]
 [ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="10_laycq"]
 [ext_resource type="PackedScene" uid="uid://dwe0dx3r17tbl" path="res://ui/sell_beans.tscn" id="11_fjvm5"]
+[ext_resource type="AudioStream" uid="uid://dakebja7n0ge4" path="res://sound/impactTin_medium_001.ogg" id="13_hhxh3"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_vjrp4"]
 device = -1
@@ -250,6 +251,9 @@ caret_blink_interval = 0.2
 [node name="beanfacttimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="clicksnd" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_hhxh3")
 
 [connection signal="pressed" from="homebtn/Bluebtn" to="." method="_on_homebtn_pressed"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/dragbtn/Bluebtn" to="." method="_on_dragbtn_toggled"]

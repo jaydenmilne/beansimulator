@@ -21,6 +21,22 @@ var BIG_BEAN_CELLS = [Vector2i(8, 0), Vector2i(9, 0), Vector2i(10, 0), Vector2i(
 
 const BLANK_CELL = Vector2i(-1, -1)
 
+const PLANT_SOUNDS = [
+	preload("res://sound/footstep_grass_000.ogg"),
+	preload("res://sound/footstep_grass_001.ogg"),
+	preload("res://sound/footstep_grass_002.ogg"),
+	preload("res://sound/footstep_grass_003.ogg"),
+	preload("res://sound/footstep_grass_004.ogg"),
+]
+
+const CUT_SOUNDS = [
+	preload("res://sound/drawKnife1.ogg"),
+	preload("res://sound/drawKnife2.ogg"),
+	preload("res://sound/drawKnife3.ogg"),
+	preload("res://sound/knifeSlice2.ogg"),
+	preload("res://sound/knifeSlice.ogg"),
+]
+
 const DETRITUS = [
 	Vector2i(6, 2),
 	Vector2i(7, 2),
@@ -167,6 +183,8 @@ func plant_cell(c: Vector2i):
 	beans[x][y] = {"t": self.get_bean_ready_date()}
 	$writefield.stop()
 	$writefield.start()
+	$sound.stream = PLANT_SOUNDS[maturationrng.randi_range(0, len(PLANT_SOUNDS)-1)]
+	$sound.play()
 
 func harvest_cell(c: Vector2i):
 	var beans = self.field_data['beans']
@@ -178,6 +196,8 @@ func harvest_cell(c: Vector2i):
 	Globals.update_beans(self.maturationrng.randi_range(100, 120))
 	$writefield.stop()
 	$writefield.start()
+	$sound.stream = CUT_SOUNDS[maturationrng.randi_range(0, len(CUT_SOUNDS)-1)]
+	$sound.play()
 
 func _on_writefield_timeout() -> void:
 	print("saving field ", str(self.field_id))

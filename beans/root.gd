@@ -55,8 +55,8 @@ func update_fields():
 	var cullable_fields = []
 	
 	var size = self.get_viewport_rect().size
-	var min_fields_horizontal = ceil(size.x / FIELD_WIDTH) * 2
-	var min_fields_vertical = ceil(size.y / FIELD_HEIGHT) * 2
+	var min_fields_horizontal = ceil(size.x / FIELD_WIDTH) * 3
+	var min_fields_vertical = ceil(size.y / FIELD_HEIGHT) * 3
 	
 	for field_id in field_map:
 		if abs(camera_field[0] - field_id[0]) > min_fields_horizontal or abs(camera_field[1] - field_id[1]) > min_fields_vertical:

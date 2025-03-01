@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwe0dx3r17tbl"]
+[gd_scene load_steps=8 format=3 uid="uid://dwe0dx3r17tbl"]
 
 [ext_resource type="PackedScene" uid="uid://4k58nxawrx7w" path="res://ui/dialog.tscn" id="1_eqc2l"]
 [ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="2_a51pw"]
 [ext_resource type="Script" path="res://ui/sell_beans.gd" id="2_f6t3b"]
 [ext_resource type="Texture2D" uid="uid://cvuh4c1hjy4dh" path="res://ui/texture/buttonLong_grey.png" id="3_c4eqq"]
 [ext_resource type="Texture2D" uid="uid://dcnnpyw5a63lm" path="res://ui/texture/buttonLong_grey_pressed.png" id="4_umg2b"]
+[ext_resource type="AudioStream" uid="uid://bapb2eew0b8cp" path="res://sound/handleCoins.ogg" id="6_8ybgu"]
 
 [sub_resource type="GDScript" id="GDScript_5uwn7"]
 script/source = "extends TextureButton
@@ -35,7 +36,11 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_bottom = 16
 script = ExtResource("2_f6t3b")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls" index="0"]
+[node name="sellsnd" type="AudioStreamPlayer2D" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls" index="0"]
+position = Vector2(-17, -66)
+stream = ExtResource("6_8ybgu")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls" index="1"]
 layout_mode = 2
 theme_override_constants/separation = 15
 

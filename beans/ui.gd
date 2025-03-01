@@ -22,10 +22,10 @@ func format_money() -> String:
 		return "$0"
 	if Globals.money < 1:
 		return "$%f" % [Globals.money]
-	print(Globals.money)
 	var int_part = int(Globals.money)
 	var frac = Globals.money - int_part
-	return "$%s%.2f" % [Globals.thousands_sep(int_part, ","), frac]
+	var frac_str = ("%.2f" % [frac]).lstrip("0")
+	return "$%s%s" % [Globals.thousands_sep(int_part, ","), frac_str]
 
 var showed_bean_fact_popup = false
 
@@ -41,21 +41,21 @@ func _ready() -> void:
 	Globals.update_inventory.connect(self.update_inventory)
 	self.update_inventory()
  
-func _on_sellbtn_toggled(toggled_on: bool) -> void:
-	pass # Replace with function body.
-
 
 func _on_dragbtn_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		$clicksnd.play()
 		Globals.mouse_mode = Globals.MOUSE_MODE.DRAG
 
 
 func _on_plantbtn_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		$clicksnd.play()
 		Globals.mouse_mode = Globals.MOUSE_MODE.PLANT
 
 func _on_cutbtn_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		$clicksnd.play()
 		Globals.mouse_mode = Globals.MOUSE_MODE.CUT
 
 
@@ -93,6 +93,7 @@ func _on_command_bar_gui_input(event: InputEvent) -> void:
 			$CommandBar.text = ""
 
 func _on_bluebtn_pressed() -> void:
+	$clicksnd.play()
 	$CenterContainer/SellBeans.visible = not $CenterContainer/SellBeans.visible
 
 
