@@ -82,6 +82,7 @@ visible = false
 layout_mode = 2
 
 [node name="BeanFact" parent="CenterContainer" instance=ExtResource("3_apv5v")]
+visible = false
 layout_mode = 2
 
 [node name="homebtn" parent="." instance=ExtResource("1_fplw4")]
