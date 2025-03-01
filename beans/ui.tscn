@@ -134,7 +134,7 @@ shortcut = SubResource("Shortcut_qn45d")
 
 [node name="Label" parent="PanelContainer/MarginContainer/HBoxContainer/dragbtn" index="1"]
 tooltip_text = "enable growing mode (z)"
-text = "grow"
+text = "scroll"
 
 [node name="Barn-svgrepo-com" type="Sprite2D" parent="PanelContainer/MarginContainer/HBoxContainer/dragbtn"]
 position = Vector2(23, 22)
