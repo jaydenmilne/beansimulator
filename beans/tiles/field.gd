@@ -21,6 +21,29 @@ var BIG_BEAN_CELLS = [Vector2i(8, 0), Vector2i(9, 0), Vector2i(10, 0), Vector2i(
 
 const BLANK_CELL = Vector2i(-1, -1)
 
+const DETRITUS = [
+	Vector2i(6, 2),
+	Vector2i(7, 2),
+	Vector2i(8, 2),
+	Vector2i(9, 2),
+	Vector2i(10, 2),
+	Vector2i(11, 2),
+	Vector2i(12, 2),
+	Vector2i(13, 2),
+	Vector2i(14, 2),
+	Vector2i(15, 2),
+	Vector2i(16, 2),
+	Vector2i(17, 2),
+	Vector2i(6, 6),
+	Vector2i(7, 6),
+	Vector2i(8, 6),
+	Vector2i(9, 6),
+	Vector2i(10, 6),
+	Vector2i(11, 6),
+	Vector2i(12, 6),
+	Vector2i(13, 6),
+]
+
 """
 Field File Format
 
@@ -57,11 +80,15 @@ func load_beans(id: Vector2i):
 	field_data = await JSON.parse_string(f.get_as_text())
 
 	self.refresh_field()
-		
+
+const DETRITUS_CHANCE = 25
 
 func init_field(id: Vector2i):
+	$fwddetritus.clear()
+	$backdetritus.clear()
+	$beans.clear()
 	var rng = RandomNumberGenerator.new()
-	rng.set_seed(hash(id))
+	rng.set_seed(hash(id) + hash(Globals.game_seed))
 	maturationrng.set_seed(hash(id) + Time.get_unix_time_from_system())
 	self.field_id = id
 	$debugstr.text = str(field_id)
@@ -82,17 +109,31 @@ func init_field(id: Vector2i):
 		$fence.set_cell(Vector2i(0, y), 0, FENCE_LEFT)
 		$fence.set_cell(Vector2i(field_width - 1, y), 0, FENCE_RIGHT)
 	
-	# dirt paths
+	var rand_detritus = func() -> Vector2i:
+		return DETRITUS[rng.randi_range(0, len(DETRITUS)-1)]
+
+	# dirt paths & detritus
 	for x in range(field_width):
+		if rng.randi_range(0, DETRITUS_CHANCE) == 1:
+			$backdetritus.set_cell(Vector2i(x, 0), 0, rand_detritus.call())
+		if rng.randi_range(0, DETRITUS_CHANCE) == 1:
+			$fwddetritus.set_cell(Vector2i(x, field_height - 1), 0, rand_detritus.call())
+
 		$ground.set_cell(Vector2i(x, 0), 0, Vector2i(7 + rng.randi_range(0, 3), 1))
 		$ground.set_cell(Vector2i(x, field_height - 1), 0, Vector2i(7 + rng.randi_range(0, 3), 1))
 
 	for y in range(field_height):
+		if rng.randi_range(0, DETRITUS_CHANCE) == 1:
+			$backdetritus.set_cell(Vector2i(0, y), 0, rand_detritus.call())
+		if rng.randi_range(0, DETRITUS_CHANCE) == 1:
+			$fwddetritus.set_cell(Vector2i(field_width - 1, y), 0, rand_detritus.call())
+
 		$ground.set_cell(Vector2i(0, y), 0, Vector2i(7 + rng.randi_range(0, 3), 1))
 		$ground.set_cell(Vector2i(field_width - 1, y), 0, Vector2i(7 + rng.randi_range(0, 3), 1))
 
-	# clear the corn 
-	$beans.clear()
+	# clear the bits and bobs
+
+
 
 	load_beans(id)
 var last_position

@@ -12,7 +12,13 @@ tile_set = ExtResource("1_3xqx0")
 [node name="beans" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_3xqx0")
 
+[node name="backdetritus" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_3xqx0")
+
 [node name="fence" type="TileMapLayer" parent="."]
+tile_set = ExtResource("1_3xqx0")
+
+[node name="fwddetritus" type="TileMapLayer" parent="."]
 tile_set = ExtResource("1_3xqx0")
 
 [node name="debugstr" type="Label" parent="."]
