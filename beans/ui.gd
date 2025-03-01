@@ -13,12 +13,29 @@ func round(i: int) -> String:
 	elif i > 999_999 and i < 1_000_000_000:
 		return "%.1fM" % [i / 1_000_000.0]
 	elif i > 999_999_999 and i < 1_000_000_000_000:
-		return "%.1fB" % [i / 1_000_000_000_000.0]
+		return "%.1fB" % [i / 1_000_000_000.0]
 	else:
-		return "%.1fT" % [i / 1_000_000_000_000_000.0]
+		return "%.1fT" % [i / 1_000_000_000_000.0]
+		
+func format_money() -> String:
+	if Globals.money == 0:
+		return "$0"
+	if Globals.money < 1:
+		return "$%f" % [Globals.money]
+	print(Globals.money)
+	var int_part = int(Globals.money)
+	var frac = Globals.money - int_part
+	return "$%s%.2f" % [Globals.thousands_sep(int_part, ","), frac]
+
+var showed_bean_fact_popup = false
+
 func update_inventory():
 	$Inventory/MarginContainer/VBoxContainer/BeanCount.text = "Beans: %s" % [self.round(Globals.beans)]
-	$Inventory/MarginContainer/VBoxContainer/Money.text = "$%f" % [Globals.money]
+	$Inventory/MarginContainer/VBoxContainer/Money.text = self.format_money()
+
+	if Globals.beans == 0 and not self.showed_bean_fact_popup:
+		self.showed_bean_fact_popup = true
+		$beanfacttimer.start()
 
 func _ready() -> void:
 	Globals.update_inventory.connect(self.update_inventory)
@@ -75,6 +92,9 @@ func _on_command_bar_gui_input(event: InputEvent) -> void:
 			self.run_debug_command($CommandBar.text)
 			$CommandBar.text = ""
 
+func _on_bluebtn_pressed() -> void:
+	$CenterContainer/SellBeans.visible = not $CenterContainer/SellBeans.visible
 
-func _on_bluebtn_toggled(toggled_on: bool) -> void:
-	pass # Replace with function body.
+
+func _on_beanfacttimer_timeout() -> void:
+	$CenterContainer/BeanFact.visible = true

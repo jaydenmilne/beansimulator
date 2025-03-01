@@ -81,16 +81,18 @@ func update_fields():
 					field_map.erase(victim_id)
 					self.set_field_at(Vector2i(x, y), victim)
 	
-	
+
+func reset_timer():
+	var rnd = RandomNumberGenerator.new()
+	rnd.seed = int(Time.get_unix_time_from_system())
+	$musictimer.wait_time = rnd.randi_range(10 * 60, 60 * 60)
+	$musictimer.stop()
+	$musictimer.start()
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	init_fields()
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+	self.init_fields()
+	self.reset_timer()
 
 func _on_timer_timeout() -> void:
 	self.update_fields()
@@ -103,3 +105,9 @@ func _on_ui_home() -> void:
 	self.init_fields() # lol make some more why not
 	$Camera2D.position = Vector2i(0, 0)
 	$Camera2D.velocity = Vector2i(0, 0)
+
+func _on_musictimer_timeout() -> void:
+	$music.play()
+
+func _on_music_finished() -> void:
+	self.reset_timer()

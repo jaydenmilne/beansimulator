@@ -1,0 +1,77 @@
+[gd_scene load_steps=7 format=3 uid="uid://dwe0dx3r17tbl"]
+
+[ext_resource type="PackedScene" uid="uid://4k58nxawrx7w" path="res://ui/dialog.tscn" id="1_eqc2l"]
+[ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="2_a51pw"]
+[ext_resource type="Script" path="res://ui/sell_beans.gd" id="2_f6t3b"]
+[ext_resource type="Texture2D" uid="uid://cvuh4c1hjy4dh" path="res://ui/texture/buttonLong_grey.png" id="3_c4eqq"]
+[ext_resource type="Texture2D" uid="uid://dcnnpyw5a63lm" path="res://ui/texture/buttonLong_grey_pressed.png" id="4_umg2b"]
+
+[sub_resource type="GDScript" id="GDScript_5uwn7"]
+script/source = "extends TextureButton
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+
+func _on_pressed() -> void:
+	self.visible = false
+"
+
+[node name="Dialog" instance=ExtResource("1_eqc2l")]
+
+[node name="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer" index="0"]
+text = "sell beans"
+
+[node name="SliderControls" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("2_f6t3b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer" index="0"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+
+[node name="BeanCount" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer" index="1"]
+layout_mode = 2
+theme = ExtResource("2_a51pw")
+text = "12345678901234567890"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer" index="2"]
+layout_mode = 2
+texture_normal = ExtResource("3_c4eqq")
+texture_pressed = ExtResource("4_umg2b")
+script = SubResource("GDScript_5uwn7")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer/TextureButton" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_a51pw")
+theme_override_font_sizes/font_size = 20
+text = "sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TextureButton" index="0"]
+text = "close"
+
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer/HSlider" to="PanelContainer/MarginContainer/VBoxContainer/SliderControls" method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer/TextureButton" to="PanelContainer/MarginContainer/VBoxContainer/SliderControls" method="_on_texture_button_pressed"]

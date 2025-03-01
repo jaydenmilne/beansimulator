@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://bhj12nrs22otp"]
+
+[ext_resource type="PackedScene" uid="uid://4k58nxawrx7w" path="res://ui/dialog.tscn" id="1_2cx8h"]
+[ext_resource type="Script" path="res://ui/bean_facts.gd" id="2_yvtpo"]
+[ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="3_vq3ho"]
+[ext_resource type="Texture2D" uid="uid://cvuh4c1hjy4dh" path="res://ui/texture/buttonLong_grey.png" id="4_rpvwt"]
+[ext_resource type="Texture2D" uid="uid://dcnnpyw5a63lm" path="res://ui/texture/buttonLong_grey_pressed.png" id="5_abw2t"]
+
+[node name="Dialog" instance=ExtResource("1_2cx8h")]
+offset_top = -466.0
+offset_bottom = -50.0
+
+[node name="MarginContainer" parent="PanelContainer" index="0"]
+custom_minimum_size = Vector2(400, 0)
+
+[node name="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer2/MarginContainer" index="0"]
+text = "bean fact"
+
+[node name="DialogBody" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer" index="1"]
+layout_mode = 2
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_bottom = 16
+script = ExtResource("2_yvtpo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DialogBody" index="0"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="message" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer" index="0"]
+layout_mode = 2
+theme = ExtResource("3_vq3ho")
+theme_override_font_sizes/normal_font_size = 20
+theme_override_font_sizes/bold_font_size = 22
+bbcode_enabled = true
+text = "did you know that it takes between 50-55 days for a bean bush to mature and give fruit?
+
+add a calendar reminder:
+"
+fit_content = true
+
+[node name="TextureButton" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer" index="1"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_rpvwt")
+texture_pressed = ExtResource("5_abw2t")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer/TextureButton" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_vq3ho")
+theme_override_font_sizes/font_size = 20
+text = "google calendar"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="icsbutton" type="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer" index="2"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("4_rpvwt")
+texture_pressed = ExtResource("5_abw2t")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer/icsbutton" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_vq3ho")
+theme_override_font_sizes/font_size = 20
+text = "other calendar/ics"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton" parent="PanelContainer/MarginContainer/VBoxContainer" index="2"]
+size_flags_horizontal = 4
+
+[node name="Label" parent="PanelContainer/MarginContainer/VBoxContainer/TextureButton" index="0"]
+text = "close"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer/TextureButton" to="PanelContainer/MarginContainer/VBoxContainer/DialogBody" method="_on_gcal_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/DialogBody/VBoxContainer/icsbutton" to="PanelContainer/MarginContainer/VBoxContainer/DialogBody" method="_on_icsbutton_pressed"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://cjwreoa55edjc"]
+[gd_scene load_steps=24 format=3 uid="uid://cjwreoa55edjc"]
 
 [ext_resource type="PackedScene" uid="uid://bhg0v06b3w6vj" path="res://ui/bluebtn.tscn" id="1_fplw4"]
 [ext_resource type="Script" path="res://ui.gd" id="1_gks5u"]
 [ext_resource type="Texture2D" uid="uid://cvgvvwekyu03i" path="res://ui/texture/barn-svgrepo-com.svg" id="2_5fice"]
+[ext_resource type="PackedScene" uid="uid://bhj12nrs22otp" path="res://ui/bean_fact.tscn" id="3_apv5v"]
 [ext_resource type="Texture2D" uid="uid://c8a6tewk88o1" path="res://ui/texture/panel_beige.png" id="3_csto8"]
 [ext_resource type="Texture2D" uid="uid://q24tayvqrnbs" path="res://ui/texture/grab-svgrepo-com.svg" id="4_3xfr6"]
 [ext_resource type="Texture2D" uid="uid://dt3wi38hxlrqo" path="res://ui/texture/bean-svgrepo-com.svg" id="5_xs6m0"]
@@ -10,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://d4cvpktagfan6" path="res://ui/texture/scissors-svgrepo-com.svg" id="6_dlohc"]
 [ext_resource type="Texture2D" uid="uid://dpey2dtlgmymw" path="res://ui/texture/dollar-1189-svgrepo-com.svg" id="7_1uj8v"]
 [ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="10_laycq"]
+[ext_resource type="PackedScene" uid="uid://dwe0dx3r17tbl" path="res://ui/sell_beans.tscn" id="11_fjvm5"]
 
 [sub_resource type="InputEventKey" id="InputEventKey_vjrp4"]
 device = -1
@@ -71,6 +73,16 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 script = ExtResource("1_gks5u")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="SellBeans" parent="CenterContainer" instance=ExtResource("11_fjvm5")]
+visible = false
+layout_mode = 2
+
+[node name="BeanFact" parent="CenterContainer" instance=ExtResource("3_apv5v")]
+layout_mode = 2
 
 [node name="homebtn" parent="." instance=ExtResource("1_fplw4")]
 layout_mode = 2
@@ -234,12 +246,18 @@ size_flags_vertical = 0
 caret_blink = true
 caret_blink_interval = 0.2
 
+[node name="beanfacttimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="pressed" from="homebtn/Bluebtn" to="." method="_on_homebtn_pressed"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/dragbtn/Bluebtn" to="." method="_on_dragbtn_toggled"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/plantbtn/Bluebtn" to="." method="_on_plantbtn_toggled"]
 [connection signal="toggled" from="PanelContainer/MarginContainer/HBoxContainer/cutbtn/Bluebtn" to="." method="_on_cutbtn_toggled"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/HBoxContainer/sellbtn/Bluebtn" to="." method="_on_bluebtn_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="gui_input" from="CommandBar" to="." method="_on_command_bar_gui_input"]
+[connection signal="timeout" from="beanfacttimer" to="." method="_on_beanfacttimer_timeout"]
 
 [editable path="homebtn"]
 [editable path="PanelContainer/MarginContainer/HBoxContainer/dragbtn"]

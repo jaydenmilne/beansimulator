@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dyca8aj2ur8bc"]
+[gd_scene load_steps=8 format=3 uid="uid://dyca8aj2ur8bc"]
 
 [ext_resource type="Script" path="res://root.gd" id="1_ehu3y"]
 [ext_resource type="Script" path="res://camera_2d.gd" id="2_l3pvn"]
 [ext_resource type="Material" uid="uid://bfuluy34h7mhs" path="res://shader.tres" id="3_gqebt"]
 [ext_resource type="PackedScene" uid="uid://cjwreoa55edjc" path="res://ui.tscn" id="4_lsgg5"]
+[ext_resource type="AudioStream" uid="uid://cfrkd2wnmar7i" path="res://striving.ogg" id="5_3aqf2"]
 
 [sub_resource type="Environment" id="Environment_youtg"]
 background_mode = 3
@@ -42,5 +43,14 @@ autostart = true
 
 [node name="UI" parent="CanvasLayer2" instance=ExtResource("4_lsgg5")]
 
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_3aqf2")
+volume_db = -10.613
+
+[node name="musictimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="home" from="CanvasLayer2/UI" to="." method="_on_ui_home"]
+[connection signal="finished" from="music" to="." method="_on_music_finished"]
+[connection signal="timeout" from="musictimer" to="." method="_on_musictimer_timeout"]

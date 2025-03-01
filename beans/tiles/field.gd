@@ -105,16 +105,13 @@ func position_in_this_field(p: Vector2i) -> bool:
 	var ground_cell = $ground.get_cell_atlas_coords(p)
 	return ground_cell in FIELD_CELLS
 
-const SECS_PER_DAY = 60 * 60 * 24
 
-const MIN_BEAN_MATURATION_TIME = 50 * SECS_PER_DAY
-const BEAN_MATURATION_TIME_VARIANCE = 5 * SECS_PER_DAY
 
 func get_bean_ready_date():
 	# https://www.georgina.ca/sites/default/files/page_assets/planting_growing_harvesting_green_beans.pdf
 	var t = Time.get_unix_time_from_system()
-	t += self.MIN_BEAN_MATURATION_TIME
-	t += self.maturationrng.randi_range(0, self.BEAN_MATURATION_TIME_VARIANCE)
+	t += Globals.MIN_BEAN_MATURATION_TIME
+	t += self.maturationrng.randi_range(0, Globals.BEAN_MATURATION_TIME_VARIANCE)
 	return t
 
 func plant_cell(c: Vector2i):
