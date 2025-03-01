@@ -52,7 +52,7 @@ step = 0.01
 [node name="BeanCount" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/SliderControls/VBoxContainer" index="1"]
 layout_mode = 2
 theme = ExtResource("2_a51pw")
-text = "12345678901234567890"
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
