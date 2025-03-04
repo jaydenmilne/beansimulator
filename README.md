@@ -14,7 +14,7 @@ and maintain, all from within your browser?
 
 Now, to be realistic, these beans take 55 days or so to mature, but no worry,
 Bean Farming Simulator 2025 includes a handy feature to set a calendar reminder
-if you so with so you remember to reap your beans.
+if you so desire to help you remember to reap your beans.
 
 ## FAQ
 
