@@ -75,6 +75,13 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 script = ExtResource("1_gks5u")
 
+[node name="LinkButton" type="LinkButton" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "about"
+uri = "https://beans.jayd.ml/about.html"
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 2
 

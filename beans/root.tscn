@@ -17,7 +17,7 @@ adjustment_saturation = 1.1
 script = ExtResource("1_ehu3y")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.4, 0.4)
+zoom = Vector2(0.3, 0.3)
 script = ExtResource("2_l3pvn")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

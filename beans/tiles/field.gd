@@ -33,8 +33,6 @@ const CUT_SOUNDS = [
 	preload("res://sound/drawKnife1.ogg"),
 	preload("res://sound/drawKnife2.ogg"),
 	preload("res://sound/drawKnife3.ogg"),
-	preload("res://sound/knifeSlice2.ogg"),
-	preload("res://sound/knifeSlice.ogg"),
 ]
 
 const DETRITUS = [
