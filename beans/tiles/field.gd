@@ -200,6 +200,10 @@ func harvest_cell(c: Vector2i):
 func _on_writefield_timeout() -> void:
 	print("saving field ", str(self.field_id))
 	var filename = self.get_field_filename(self.field_id)
+	if OS.get_name() == "Web":
+		# we can at least try
+		JavaScriptBridge.eval("navigator.storage.persist()")
+
 	if FileAccess.file_exists(filename):
 		DirAccess.remove_absolute(filename)
 
