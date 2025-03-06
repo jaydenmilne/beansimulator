@@ -25,3 +25,7 @@ Nope, they're beans because that's the name of the game
 ### Why can I sell beans for money? What is money for?
 
 What *is* money for indeed.
+
+### Why does smooth scrolling scroll forever and never stop?
+
+Because it was funnier that way
