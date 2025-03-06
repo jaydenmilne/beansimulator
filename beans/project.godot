@@ -10,10 +10,11 @@ config_version=5
 
 [application]
 
-config/name="beans"
+config/name="Bean Simulator 2025"
+config/description="You want a bean farm? You can have an infinite bean farm. "
 run/main_scene="res://root.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://ui/grown.png"
 
 [autoload]
 

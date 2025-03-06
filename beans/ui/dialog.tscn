@@ -6,7 +6,7 @@
 [ext_resource type="Theme" uid="uid://cl1yk0ssvs37e" path="res://ui/label_theme.tres" id="3_fxv72"]
 [ext_resource type="Texture2D" uid="uid://cvuh4c1hjy4dh" path="res://ui/texture/buttonLong_grey.png" id="4_fsunp"]
 [ext_resource type="Texture2D" uid="uid://dcnnpyw5a63lm" path="res://ui/texture/buttonLong_grey_pressed.png" id="5_wlcki"]
-[ext_resource type="AudioStream" uid="uid://bp4y77ol5u3xj" path="res://sound/doorClose_1.ogg" id="7_ce7bt"]
+[ext_resource type="AudioStream" uid="uid://c35nl1mruxkwx" path="res://sound/metalLatch.ogg" id="7_umerf"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hgaf4"]
 texture = ExtResource("1_filrn")
@@ -110,6 +110,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="closesnd" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_ce7bt")
+stream = ExtResource("7_umerf")
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/TextureButton" to="." method="_on_texture_button_pressed"]
