@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1741321057|26041484604';
+const CACHE_VERSION = '1741321119|26102629632';
 /** @type {string} */
 const CACHE_PREFIX = 'Bean Simulator 2-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
