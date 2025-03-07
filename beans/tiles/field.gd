@@ -95,7 +95,7 @@ func load_beans(id: Vector2i):
 
 	self.refresh_field()
 
-const DETRITUS_CHANCE = 25
+const DETRITUS_CHANCE = 10
 
 func init_field(id: Vector2i):
 	$fwddetritus.clear()
